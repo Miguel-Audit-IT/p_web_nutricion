@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  body {
+    background-color: #E0DED1;
+    color: #00070A;
+    font-family: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  }
+
+  /* Focus visible accessibility styles */
+  :focus-visible {
+    outline: 2px solid #A68D4A;
+    outline-offset: 2px;
+  }
+}
+
+/* Custom subtle underline animation for nav links */
+.nav-link-underline {
+  position: relative;
+  display: inline-block;
+}
+
+.nav-link-underline::after {
+  content: '';
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background-color: #A68D4A;
+  transition: width 0.25s ease-in-out;
+  border-radius: 9999px;
+}
+
+.nav-link-underline:hover::after,
+.nav-link-underline:focus-visible::after {
+  width: 100%;
+}
+
