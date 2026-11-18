@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import {
   CheckCircle2,
   Stethoscope,
@@ -105,8 +106,10 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
         {/* Grid de 2 Tarjetas Principales */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 items-stretch">
           {services.map((service) => (
-            <article
+            <motion.article
               key={service.id}
+              whileHover={{ y: -6 }}
+              transition={{ duration: 0.25, ease: 'easeOut' }}
               className="flex flex-col justify-between bg-white/65 backdrop-blur-sm rounded-3xl p-8 sm:p-10 border border-nutri-forest/15 shadow-sm transition-all duration-300 hover:shadow-lg hover:border-nutri-gold/50"
             >
               <div>
@@ -177,7 +180,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                   {service.ctaText}
                 </a>
               </div>
-            </article>
+            </motion.article>
           ))}
         </div>
 

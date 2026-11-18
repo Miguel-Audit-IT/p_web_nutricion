@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import {
   Award,
   BookOpen,
@@ -6,6 +7,7 @@ import {
   CheckCircle2,
   GraduationCap,
 } from 'lucide-react';
+import { FloatingBadge } from '../ui/MotionPrimitives';
 
 export interface PhilosophyPillar {
   id: string;
@@ -16,10 +18,12 @@ export interface PhilosophyPillar {
 
 export interface AboutSectionProps {
   profileImageUrl?: string;
+  className?: string;
 }
 
 export const AboutSection: React.FC<AboutSectionProps> = ({
   profileImageUrl = 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80',
+  className = '',
 }) => {
   const pillars: PhilosophyPillar[] = [
     {
@@ -46,7 +50,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
     <section
       id="sobre-mi"
       aria-labelledby="about-heading"
-      className="bg-nutri-olive text-nutri-ivory py-20 md:py-28 relative overflow-hidden"
+      className={`bg-nutri-olive text-nutri-ivory py-20 md:py-28 relative overflow-hidden border-b border-nutri-forest/30 ${className}`}
     >
       {/* Elemento decorativo sutil de fondo */}
       <div
@@ -75,21 +79,25 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
                 />
               </div>
 
-              {/* Tarjeta flotante de respaldo académico */}
-              <div className="mt-4 sm:mt-0 sm:absolute sm:-bottom-6 sm:-right-6 bg-nutri-forest border border-nutri-gold/40 p-5 rounded-2xl shadow-xl max-w-xs">
-                <div className="flex items-start gap-3.5">
-                  <div className="p-2.5 rounded-xl bg-nutri-olive/80 text-nutri-gold border border-nutri-gold/20">
-                    <GraduationCap className="w-6 h-6" aria-hidden="true" />
+              {/* Tarjeta flotante animada con FloatingBadge */}
+              <div className="mt-4 sm:mt-0 sm:absolute sm:-bottom-6 sm:-right-6 max-w-xs">
+                <FloatingBadge amplitude={4} duration={4.5}>
+                  <div className="bg-nutri-forest border border-nutri-gold/40 p-5 rounded-2xl shadow-xl">
+                    <div className="flex items-start gap-3.5">
+                      <div className="p-2.5 rounded-xl bg-nutri-olive/80 text-nutri-gold border border-nutri-gold/20">
+                        <GraduationCap className="w-6 h-6" aria-hidden="true" />
+                      </div>
+                      <div>
+                        <p className="font-title text-base font-semibold text-nutri-ivory">
+                          Formación Universitaria
+                        </p>
+                        <p className="text-xs text-nutri-ivory/80 mt-1 leading-relaxed">
+                          Licenciada en Nutrición (Bolivia) • En trámite de revalidación en Chile.
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <p className="font-title text-base font-semibold text-nutri-ivory">
-                      Formación Universitaria
-                    </p>
-                    <p className="text-xs text-nutri-ivory/80 mt-1 leading-relaxed">
-                      Licenciada en Nutrición (Bolivia) • En trámite de revalidación en Chile.
-                    </p>
-                  </div>
-                </div>
+                </FloatingBadge>
               </div>
             </div>
           </div>
@@ -131,12 +139,14 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
               </span>
             </div>
 
-            {/* 3 Pilares de su Filosofía */}
+            {/* 3 Pilares de su Filosofía con whileHover={{ y: -6 }} */}
             <div className="pt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
               {pillars.map((pillar) => (
-                <div
+                <motion.div
                   key={pillar.id}
-                  className="bg-nutri-forest/60 border border-nutri-gold/30 rounded-2xl p-5 transition-transform duration-300 hover:-translate-y-1"
+                  whileHover={{ y: -6 }}
+                  transition={{ duration: 0.25, ease: 'easeOut' }}
+                  className="bg-nutri-forest/60 border border-nutri-gold/30 rounded-2xl p-5 shadow-sm"
                 >
                   <div className="w-10 h-10 rounded-xl bg-nutri-olive/90 flex items-center justify-center mb-3.5 border border-nutri-gold/20">
                     {pillar.icon}
@@ -147,7 +157,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
                   <p className="font-body text-xs sm:text-sm text-nutri-ivory/80 leading-relaxed">
                     {pillar.description}
                   </p>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>

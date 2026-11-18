@@ -4,27 +4,42 @@ import { NavItem } from '../../types';
 
 export const NAV_ITEMS: NavItem[] = [
   { label: 'Inicio', href: '#inicio' },
-  { label: 'Sobre Mí', href: '#sobre-mi' },
   { label: 'Servicios', href: '#servicios' },
-  { label: 'Nutrición Clínica', href: '#nutricion-clinica' },
+  { label: 'Áreas de Enfoque', href: '#areas-enfoque' },
+  { label: 'Sobre Mí', href: '#sobre-mi' },
   { label: 'Contacto', href: '#contacto' },
 ];
 
 export const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState<string>('#inicio');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
-  // Monitor scroll to toggle background blur and color
+  // Monitor scroll to toggle background blur and track active section (Scroll Spy)
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
+
+      // Scroll Spy con detección de compensación para navbar sticky
+      const sections = NAV_ITEMS.map((item) => item.href.substring(1));
+      const scrollPosition = window.scrollY + 120;
+
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const sectionId = sections[i];
+        const element = document.getElementById(sectionId);
+        if (element) {
+          const top = element.offsetTop;
+          if (scrollPosition >= top) {
+            setActiveSection(`#${sectionId}`);
+            break;
+          }
+        }
+      }
     };
 
-    // Initial check
     handleScroll();
-
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -84,30 +99,49 @@ export const Navbar: React.FC = () => {
                 Jeanette Ajata
               </span>
               <span className="text-[10px] sm:text-xs tracking-widest uppercase font-medium text-nutri-sage transition-colors duration-200">
-                Nutrición Clínica
+                Nutrición y Bienestar
               </span>
             </a>
           </div>
 
-          {/* Menú de Enlaces Desktop (Centro) */}
-          <ul className="hidden md:flex items-center space-x-7 lg:space-x-9">
-            {NAV_ITEMS.map((item) => (
-              <li key={item.label}>
-                <a
-                  href={item.href}
-                  className="nav-link-underline text-sm lg:text-base font-medium text-nutri-dark hover:text-nutri-forest transition-colors duration-200 py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-nutri-gold rounded-sm"
-                >
-                  {item.label}
-                </a>
-              </li>
-            ))}
+          {/* Menú de Enlaces Desktop (Centro con indicador dinámico de sección activa) */}
+          <ul className="hidden md:flex items-center space-x-6 lg:space-x-8">
+            {NAV_ITEMS.map((item) => {
+              const isActive = activeSection === item.href;
+              return (
+                <li key={item.label}>
+                  <a
+                    href={item.href}
+                    className={`relative text-sm lg:text-base font-medium py-1 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-nutri-gold rounded-sm ${
+                      isActive
+                        ? 'text-nutri-forest font-semibold'
+                        : 'text-nutri-dark/80 hover:text-nutri-forest'
+                    }`}
+                  >
+                    <span>{item.label}</span>
+                    {/* Indicador de sección activa con línea dorada sutil */}
+                    {isActive ? (
+                      <span
+                        className="absolute bottom-[-4px] left-0 right-0 h-[2.5px] bg-nutri-gold rounded-full"
+                        aria-hidden="true"
+                      />
+                    ) : (
+                      <span
+                        className="nav-link-underline"
+                        aria-hidden="true"
+                      />
+                    )}
+                  </a>
+                </li>
+              );
+            })}
           </ul>
 
           {/* Botón CTA Desktop (Derecha) */}
           <div className="hidden md:flex items-center">
             <a
-              href="#agendar"
-              aria-label="Agendar consulta nutricional con Jeanette Ajata"
+              href="#contacto"
+              aria-label="Agendar consulta o asesoría con Jeanette Ajata"
               className="inline-flex items-center gap-2 bg-nutri-sage text-nutri-ivory px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-200 hover:bg-nutri-forest hover:shadow-md hover:scale-[1.02] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-nutri-gold focus-visible:ring-offset-2 focus-visible:ring-offset-nutri-ivory"
             >
               <Calendar className="w-4 h-4" aria-hidden="true" />
@@ -136,7 +170,7 @@ export const Navbar: React.FC = () => {
         </nav>
       </div>
 
-      {/* Menú Desplegable Mobile (Overlay + Panel) */}
+      {/* Menú Desplegable Mobile */}
       {isMobileMenuOpen && (
         <div
           id="mobile-navigation-menu"
@@ -151,22 +185,27 @@ export const Navbar: React.FC = () => {
         >
           <div className="bg-nutri-ivory border-b border-nutri-forest/15 px-6 pt-6 pb-8 shadow-xl max-h-[calc(100vh-80px)] overflow-y-auto">
             <ul className="flex flex-col space-y-4" role="list">
-              {NAV_ITEMS.map((item) => (
-                <li key={item.label} className="border-b border-nutri-forest/10 pb-3">
-                  <a
-                    href={item.href}
-                    onClick={closeMobileMenu}
-                    className="block text-lg font-serif font-medium text-nutri-forest hover:text-nutri-gold transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-nutri-gold rounded-sm px-1 py-1"
-                  >
-                    {item.label}
-                  </a>
-                </li>
-              ))}
+              {NAV_ITEMS.map((item) => {
+                const isActive = activeSection === item.href;
+                return (
+                  <li key={item.label} className="border-b border-nutri-forest/10 pb-3">
+                    <a
+                      href={item.href}
+                      onClick={closeMobileMenu}
+                      className={`block text-lg font-serif font-medium transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-nutri-gold rounded-sm px-1 py-1 ${
+                        isActive ? 'text-nutri-forest font-semibold pl-2 border-l-2 border-nutri-gold' : 'text-nutri-forest hover:text-nutri-gold'
+                      }`}
+                    >
+                      {item.label}
+                    </a>
+                  </li>
+                );
+              })}
             </ul>
 
             <div className="mt-6 pt-2">
               <a
-                href="#agendar"
+                href="#contacto"
                 onClick={closeMobileMenu}
                 aria-label="Agendar consulta nutricional desde menú móvil"
                 className="w-full inline-flex items-center justify-center gap-2 bg-nutri-sage text-nutri-ivory px-5 py-3 rounded-full text-base font-medium shadow-sm transition-all duration-200 hover:bg-nutri-forest active:scale-98 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-nutri-gold focus-visible:ring-offset-2"
@@ -185,4 +224,3 @@ export const Navbar: React.FC = () => {
     </header>
   );
 };
-

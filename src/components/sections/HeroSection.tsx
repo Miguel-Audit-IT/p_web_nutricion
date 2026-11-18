@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Globe, MapPin, ShieldCheck, Sparkles } from 'lucide-react';
+import { FloatingBadge } from '../ui/MotionPrimitives';
 
 export interface HeroSectionProps {
   onSelectBolivia?: () => void;
@@ -10,6 +11,8 @@ export interface HeroSectionProps {
 export const HeroSection: React.FC<HeroSectionProps> = ({
   whatsappNumber = '56900000000',
 }) => {
+  const [imageError, setImageError] = useState(false);
+
   const boliviaWaLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
     'Hola Jeanette, me comunico desde Bolivia y quisiera agendar una Consulta Nutricional Online.'
   )}`;
@@ -18,8 +21,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
     'Hola Jeanette, me interesa el Programa de Educación Alimentaria y hábitos en Calama, Chile.'
   )}`;
 
+  // URL primaria y respaldo de alimentación saludable y consulta
+  const primaryImageUrl = 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=900&q=80';
+  const fallbackImageUrl = 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=900&q=80';
+
   return (
     <section
+      id="inicio"
       aria-labelledby="hero-heading"
       className="relative bg-nutri-ivory pt-10 pb-16 md:pt-16 md:pb-24 overflow-hidden border-b border-nutri-forest/10"
     >
@@ -119,38 +127,43 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               {/* Contenedor elegante de la imagen con esquinas redondeadas asimétricas y borde nutri-gold */}
               <div className="relative overflow-hidden rounded-tl-[3.5rem] rounded-br-[3.5rem] rounded-tr-2xl rounded-bl-2xl border-2 border-nutri-gold shadow-xl bg-nutri-forest/10 aspect-[4/5] sm:aspect-[3/4]">
                 
-                {/* Fotografía profesional de Jeanette Ajata */}
+                {/* Fotografía profesional de nutrición y bienestar */}
                 <img
-                  src="https://images.unsplash.com/photo-1594824813627-805c6d3fa316?auto=format&fit=crop&w=900&q=80"
-                  alt="Jeanette Ajata - Nutricionista titulada en Bolivia y Educadora Alimentaria en Calama"
+                  src={imageError ? fallbackImageUrl : primaryImageUrl}
+                  alt="Alimentación consciente y asesoría nutricional con Jeanette Ajata"
                   className="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-105"
                   loading="eager"
                   width="600"
                   height="800"
+                  onError={() => setImageError(true)}
                 />
 
                 {/* Gradiente sutil para integración cromática Natural Premium */}
                 <div
-                  className="absolute inset-0 bg-gradient-to-t from-nutri-dark/60 via-transparent to-transparent pointer-events-none"
+                  className="absolute inset-0 bg-gradient-to-t from-nutri-dark/65 via-transparent to-transparent pointer-events-none"
                   aria-hidden="true"
                 />
 
-                {/* Tarjeta flotante inferior de acreditación */}
-                <div className="absolute bottom-4 left-4 right-4 bg-nutri-ivory/95 backdrop-blur-md p-3.5 rounded-2xl border border-nutri-forest/15 shadow-md">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="font-title text-sm sm:text-base font-semibold text-nutri-forest leading-tight">
-                        Jeanette Ajata
-                      </p>
-                      <p className="text-[11px] text-nutri-dark/75 font-body">
-                        Licenciada en Nutrición (Bolivia)
-                      </p>
+                {/* Tarjeta flotante inferior animada con FloatingBadge */}
+                <div className="absolute bottom-4 left-4 right-4">
+                  <FloatingBadge amplitude={3} duration={4}>
+                    <div className="bg-nutri-ivory/95 backdrop-blur-md p-3.5 rounded-2xl border border-nutri-forest/15 shadow-md">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="font-title text-sm sm:text-base font-semibold text-nutri-forest leading-tight">
+                            Jeanette Ajata Cutipa
+                          </p>
+                          <p className="text-[11px] text-nutri-dark/75 font-body">
+                            Licenciada en Nutrición (Bolivia)
+                          </p>
+                        </div>
+                        <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-nutri-forest bg-nutri-gold/20 text-nutri-dark px-2 py-0.5 rounded-full border border-nutri-gold/40">
+                          <span className="w-1.5 h-1.5 rounded-full bg-nutri-sage animate-pulse" />
+                          Calama &bull; Online
+                        </span>
+                      </div>
                     </div>
-                    <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-nutri-forest bg-nutri-gold/20 text-nutri-dark px-2 py-0.5 rounded-full border border-nutri-gold/40">
-                      <span className="w-1.5 h-1.5 rounded-full bg-nutri-sage animate-pulse" />
-                      Calama &bull; Online
-                    </span>
-                  </div>
+                  </FloatingBadge>
                 </div>
 
               </div>
