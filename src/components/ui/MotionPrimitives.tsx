@@ -94,3 +94,4 @@ export const HoverCard: React.FC<HoverCardProps> = ({
     </motion.div>
   );
 };
+

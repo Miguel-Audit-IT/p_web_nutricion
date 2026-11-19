@@ -83,6 +83,22 @@ export const Footer: React.FC = () => {
                 </li>
                 <li>
                   <a
+                    href="#areas-enfoque"
+                    className="text-nutri-ivory/75 hover:text-nutri-gold transition-colors duration-200 inline-flex items-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-nutri-gold rounded-sm"
+                  >
+                    Áreas de Enfoque
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#metodologia"
+                    className="text-nutri-ivory/75 hover:text-nutri-gold transition-colors duration-200 inline-flex items-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-nutri-gold rounded-sm"
+                  >
+                    Metodología en 3 Pasos
+                  </a>
+                </li>
+                <li>
+                  <a
                     href="#sobre-mi"
                     className="text-nutri-ivory/75 hover:text-nutri-gold transition-colors duration-200 inline-flex items-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-nutri-gold rounded-sm"
                   >

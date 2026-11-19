@@ -8,7 +8,6 @@ import {
   CheckCircle2,
   AlertCircle,
   ArrowRight,
-  ShieldCheck,
 } from 'lucide-react';
 
 export interface FocusArea {
@@ -206,20 +205,24 @@ export const FocusAreasSection: React.FC<FocusAreasSectionProps> = ({
               transition={{ duration: 0.35, ease: 'easeInOut' }}
               className="bg-white/80 backdrop-blur-md rounded-3xl p-6 sm:p-10 lg:p-12 border-2 border-nutri-forest/15 shadow-xl"
             >
-              {/* Cabecera del Panel */}
+              {/* Cabecera del Panel con Badge Minimalista en la esquina superior derecha */}
               <div className="mb-8">
-                {activeArea.badge && (
-                  <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-nutri-sage/15 text-nutri-forest border border-nutri-sage/30 text-xs font-semibold mb-3">
-                    <ShieldCheck className="w-3.5 h-3.5 text-nutri-gold" aria-hidden="true" />
-                    <span>{activeArea.badge}</span>
+                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+                  <div className="space-y-1 max-w-2xl">
+                    <h3 className="font-title text-2xl sm:text-3xl lg:text-4xl text-nutri-forest font-normal leading-snug">
+                      {activeArea.title}
+                    </h3>
+                    <p className="font-body text-nutri-sage font-medium text-sm sm:text-base">
+                      {activeArea.subtitle}
+                    </p>
                   </div>
-                )}
-                <h3 className="font-title text-2xl sm:text-3xl lg:text-4xl text-nutri-forest font-normal leading-snug">
-                  {activeArea.title}
-                </h3>
-                <p className="font-body text-nutri-sage font-medium text-sm sm:text-base mt-1">
-                  {activeArea.subtitle}
-                </p>
+                  {activeArea.badge && (
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-nutri-ivory text-nutri-forest/90 border border-nutri-forest/20 text-xs font-medium tracking-tight shadow-xs shrink-0 self-start">
+                      <span className="w-1.5 h-1.5 rounded-full bg-nutri-gold shrink-0" aria-hidden="true" />
+                      <span>{activeArea.badge}</span>
+                    </div>
+                  )}
+                </div>
                 <p className="font-body text-nutri-dark/85 text-sm sm:text-base leading-relaxed mt-4 max-w-3xl">
                   {activeArea.description}
                 </p>
@@ -291,3 +294,4 @@ export const FocusAreasSection: React.FC<FocusAreasSectionProps> = ({
 };
 
 export default FocusAreasSection;
+

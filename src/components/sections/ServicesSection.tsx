@@ -6,7 +6,6 @@ import {
   Apple,
   Globe,
   MapPin,
-  ShieldAlert,
 } from 'lucide-react';
 
 export interface ServiceItem {
@@ -182,20 +181,6 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
               </div>
             </motion.article>
           ))}
-        </div>
-
-        {/* Nota Legal al pie de las tarjetas */}
-        <div className="mt-10 max-w-4xl mx-auto">
-          <div className="flex items-start gap-3 p-4 rounded-2xl bg-nutri-forest/5 border border-nutri-forest/10 text-xs sm:text-sm text-nutri-dark/75 leading-relaxed">
-            <ShieldAlert
-              className="w-5 h-5 text-nutri-gold flex-shrink-0 mt-0.5"
-              aria-hidden="true"
-            />
-            <p>
-              <strong className="font-semibold text-nutri-forest">Aviso Normativo:</strong>{' '}
-              En territorio chileno, los programas de asesoría tienen un carácter exclusivamente educativo, preventivo y de promoción de hábitos saludables, sin constituir diagnóstico clínico, prescripción dietoterapéutica ni sustitución de tratamiento médico, en estricto cumplimiento de la legislación sanitaria vigente.
-            </p>
-          </div>
         </div>
       </div>
     </section>

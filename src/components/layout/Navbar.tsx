@@ -6,6 +6,7 @@ export const NAV_ITEMS: NavItem[] = [
   { label: 'Inicio', href: '#inicio' },
   { label: 'Servicios', href: '#servicios' },
   { label: 'Áreas de Enfoque', href: '#areas-enfoque' },
+  { label: 'Metodología', href: '#metodologia' },
   { label: 'Sobre Mí', href: '#sobre-mi' },
   { label: 'Contacto', href: '#contacto' },
 ];
@@ -105,14 +106,14 @@ export const Navbar: React.FC = () => {
           </div>
 
           {/* Menú de Enlaces Desktop (Centro con indicador dinámico de sección activa) */}
-          <ul className="hidden md:flex items-center space-x-6 lg:space-x-8">
+          <ul className="hidden md:flex items-center space-x-4 lg:space-x-6">
             {NAV_ITEMS.map((item) => {
               const isActive = activeSection === item.href;
               return (
                 <li key={item.label}>
                   <a
                     href={item.href}
-                    className={`relative text-sm lg:text-base font-medium py-1 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-nutri-gold rounded-sm ${
+                    className={`relative text-xs lg:text-sm font-medium py-1 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-nutri-gold rounded-sm ${
                       isActive
                         ? 'text-nutri-forest font-semibold'
                         : 'text-nutri-dark/80 hover:text-nutri-forest'
