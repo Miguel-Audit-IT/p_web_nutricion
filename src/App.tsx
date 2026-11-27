@@ -9,6 +9,7 @@ import ContactSection from './components/sections/ContactSection';
 import { FadeInUp } from './components/ui/MotionPrimitives';
 import { SmoothScrollProvider } from './components/ui/SmoothScrollProvider';
 import { EditorialPreloader } from './components/ui/EditorialPreloader';
+import { CookieConsentManager } from './components/ui/CookieConsentManager';
 
 export function App() {
   return (
@@ -43,6 +44,9 @@ export function App() {
         <FadeInUp>
           <ContactSection whatsappNumber="56900000000" />
         </FadeInUp>
+
+        {/* Gestor de Consentimiento de Cookies (Ley N° 21.719, dentro de LegalModalProvider) */}
+        <CookieConsentManager />
       </Layout>
 
       {/* Preloader Editorial de Lujo (se monta al final para cubrir el navbar z-50 y se desmonta al completar) */}

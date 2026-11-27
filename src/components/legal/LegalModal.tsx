@@ -1,6 +1,10 @@
 import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
 import { X, ShieldCheck, FileText, Scale, Lock } from 'lucide-react';
 
+// Constante editable para el canal oficial de privacidad (Art. 14 ter Ley N° 21.719)
+export const PRIVACY_CONTACT_EMAIL = 'privacidad@jeanetteajata.cl';
+export const PRIVACY_POLICY_VERSION = '1.1';
+
 export type LegalDocType = 'privacy' | 'terms' | 'rights';
 
 interface LegalModalContextType {
@@ -119,7 +123,10 @@ const LegalModalContent: React.FC<LegalModalContentProps> = ({
         </div>
 
         {/* Cuerpo del Modal con Scroll */}
-        <div className="px-6 sm:px-8 py-6 overflow-y-auto space-y-6 text-sm font-body text-nutri-dark/85 leading-relaxed">
+        <div
+          data-lenis-prevent
+          className="px-6 sm:px-8 py-6 overflow-y-auto space-y-6 text-sm font-body text-nutri-dark/85 leading-relaxed"
+        >
           {type === 'privacy' && <PrivacyContent />}
           {type === 'terms' && <TermsContent />}
           {type === 'rights' && <RightsContent />}
@@ -127,7 +134,11 @@ const LegalModalContent: React.FC<LegalModalContentProps> = ({
 
         {/* Pie del Modal */}
         <div className="px-6 py-4 bg-nutri-forest/5 border-t border-nutri-forest/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-nutri-dark/70">
-          <span>Actualizado al año legal 2026 &bull; Jeanette Ajata Cutipa</span>
+          <span>
+            {type === 'privacy'
+              ? `Versión ${PRIVACY_POLICY_VERSION} (Art. 14 ter Ley N° 21.719) • Jeanette Ajata Cutipa`
+              : 'Actualizado al año legal 2026 • Jeanette Ajata Cutipa'}
+          </span>
           <button
             type="button"
             onClick={onClose}
@@ -142,64 +153,104 @@ const LegalModalContent: React.FC<LegalModalContentProps> = ({
 };
 
 /* ========================================================================= */
-/* 1. CONTENIDO: POLÍTICA DE PRIVACIDAD (Ley N° 21.719 y Ley N° 21.663)      */
+/* 1. CONTENIDO: POLÍTICA DE PRIVACIDAD (Versión 1.1 — Art. 14 ter Ley 21.719) */
 /* ========================================================================= */
 const PrivacyContent: React.FC = () => (
   <>
     <div className="p-4 rounded-2xl bg-nutri-sage/10 border border-nutri-sage/30 flex items-start gap-3">
       <ShieldCheck className="w-5 h-5 text-nutri-forest flex-shrink-0 mt-0.5" aria-hidden="true" />
       <p className="text-xs text-nutri-forest leading-relaxed">
-        <strong>Cumplimiento Normativo:</strong> Esta política rige bajo el estándar de la <strong>Ley N° 21.719</strong> sobre Protección de Datos Personales en Chile y la <strong>Ley N° 21.663</strong> (Ley Marco de Ciberseguridad), garantizando los derechos de los titulares y el resguardo de la confidencialidad.
+        <strong>Política de Privacidad — Versión {PRIVACY_POLICY_VERSION} (Art. 14 ter Ley N° 21.719):</strong> Redactada en cumplimiento de la <strong>Ley N° 21.719</strong> de Protección de Datos Personales de Chile y la <strong>Ley N° 21.663</strong> (Ley Marco de Ciberseguridad), bajo el principio de privacidad desde el diseño y minimización de datos.
       </p>
     </div>
 
     <section className="space-y-2">
       <h3 className="font-title text-base font-semibold text-nutri-forest">
-        1. Responsable del Tratamiento
+        1. Identificación del Responsable
       </h3>
       <p>
-        El tratamiento de los datos personales recabados a través de este sitio web es responsabilidad de <strong>Jeanette Ajata Cutipa</strong>, Licenciada en Nutrición titulada en Bolivia y domiciliada en Calama, Región de Antofagasta, Chile.
+        La responsable del tratamiento de los datos personales recopilados en este sitio web es <strong>Jeanette Ajata Cutipa</strong>, Licenciada en Nutrición (título emitido en Bolivia), domiciliada en <strong>Calama, Chile</strong>.
+      </p>
+      <p>
+        Para consultas, solicitudes o ejercicio de derechos sobre sus datos personales, puede escribir directamente al correo de privacidad:{' '}
+        <a
+          href={`mailto:${PRIVACY_CONTACT_EMAIL}`}
+          className="text-nutri-forest font-semibold underline hover:text-nutri-gold transition-colors"
+        >
+          {PRIVACY_CONTACT_EMAIL}
+        </a>
+        .
       </p>
     </section>
 
     <section className="space-y-2">
       <h3 className="font-title text-base font-semibold text-nutri-forest">
-        2. Principio de Minimización: Prohibición de Datos Sensibles en Formularios Web
+        2. Finalidad y Base Legal del Tratamiento
       </h3>
       <p>
-        En estricto apego al principio de minimización de la Ley N° 21.719, este sitio web <strong>no solicita, almacena ni procesa antecedentes médicos, patológicos ni datos sensibles de salud</strong> a través de formularios abiertos. El formulario inicial únicamente recopila datos de contacto básicos (nombre, canal de contacto y ubicación) con la finalidad exclusiva de coordinar el primer contacto.
+        Sus datos de contacto iniciales (nombre, canal de contacto, ciudad y preferencia horaria) son tratados exclusivamente para <strong>coordinar sesiones y responder a sus solicitudes</strong>, fundados en su <strong>consentimiento informado y la ejecución de medidas precontractuales o del servicio solicitado</strong>, diferenciando estrictamente la jurisdicción aplicable:
       </p>
-      <p className="text-xs text-nutri-dark/70 bg-nutri-ivory border-l-2 border-nutri-gold pl-3 py-1">
-        Cualquier antecedente clínico de pacientes bolivianos en telemedicina es tratado exclusivamente durante la consulta médica privada y confidencial, con consentimiento explícito y bajo secreto profesional.
-      </p>
-    </section>
-
-    <section className="space-y-2">
-      <h3 className="font-title text-base font-semibold text-nutri-forest">
-        3. Finalidad del Tratamiento
-      </h3>
       <ul className="list-disc pl-5 space-y-1">
-        <li>Coordinar y responder solicitudes de atención o asesoría.</li>
-        <li>Verificar la jurisdicción territorial del usuario (Bolivia o Chile) para aplicar el marco de atención legalmente pertinente.</li>
-        <li>Gestión administrativa y agendamiento de sesiones.</li>
+        <li>
+          <strong>Residentes en Bolivia:</strong> coordinación de Consulta Nutricional Clínica mediante Telemedicina Internacional.
+        </li>
+        <li>
+          <strong>Residentes en Chile:</strong> coordinación de Programas de Educación Alimentaria y promoción de hábitos saludables (Ley N° 20.584).
+        </li>
+        <li>
+          <strong>Comunicaciones informativas (opcional):</strong> envío de consejos de educación alimentaria, novedades y disponibilidad de cupos únicamente si usted marcó expresamente la casilla opcional en el formulario.
+        </li>
       </ul>
-    </section>
-
-    <section className="space-y-2">
-      <h3 className="font-title text-base font-semibold text-nutri-forest">
-        4. Derechos del Titular (Derechos ARCO)
-      </h3>
-      <p>
-        Usted podrá ejercer en cualquier momento sus derechos de <strong>Acceso, Rectificación, Cancelación y Oposición</strong> sobre sus datos de contacto, contactando directamente a través de nuestro canal de mensajería oficial.
+      <p className="text-xs text-nutri-dark/75 bg-nutri-ivory border-l-2 border-nutri-gold pl-3 py-1">
+        Principio de minimización: el formulario web no solicita ni almacena diagnósticos ni datos sensibles de salud.
       </p>
     </section>
 
     <section className="space-y-2">
       <h3 className="font-title text-base font-semibold text-nutri-forest">
-        5. Medidas de Ciberseguridad (Ley N° 21.663)
+        3. Plazo de Conservación
       </h3>
       <p>
-        La plataforma implementa protocolos criptográficos de navegación segura (HTTPS/TLS) y no comercializa ni comparte bases de datos con terceros bajo ninguna circunstancia.
+        Los datos entregados mediante el formulario inicial se conservan <strong>únicamente durante el tiempo estrictamente necesario para gestionar y responder su solicitud</strong>. En caso de iniciar una relación de atención o asesoría, se conservarán durante la vigencia de la relación profesional más los plazos legales aplicables, procediendo posteriormente a su <strong>eliminación o anonimización segura</strong>.
+      </p>
+    </section>
+
+    <section className="space-y-2">
+      <h3 className="font-title text-base font-semibold text-nutri-forest">
+        4. Destinatarios y Transferencias Internacionales
+      </h3>
+      <p>
+        No vendemos ni cedemos sus datos personales a terceros con fines comerciales. Para la operación técnica y comunicación inicial, informamos de forma transparente que:
+      </p>
+      <ul className="list-disc pl-5 space-y-1">
+        <li>
+          Este sitio web se aloja en la infraestructura de <strong>GitHub Pages (GitHub Inc., Estados Unidos)</strong>, bajo conexiones cifradas HTTPS/TLS.
+        </li>
+        <li>
+          El canal de contacto inicial opera mediante <strong>WhatsApp (Meta Platforms Inc., Estados Unidos)</strong>, con cifrado de extremo a extremo en la mensajería.
+        </li>
+      </ul>
+      <p>
+        Ambos proveedores operan bajo sus respectivas políticas y salvaguardas técnicas de seguridad y transferencia internacional.
+      </p>
+    </section>
+
+    <section className="space-y-2">
+      <h3 className="font-title text-base font-semibold text-nutri-forest">
+        5. Derechos ARSOP+ y Canal de Ejercicio
+      </h3>
+      <p>
+        Como titular de sus datos personales, usted puede ejercer en cualquier momento y de forma gratuita sus derechos de <strong>Acceso</strong> (conocer qué datos tratamos), <strong>Rectificación</strong> (corregir datos inexactos), <strong>Supresión</strong> (solicitar su eliminación), <strong>Oposición</strong> (oponerse a determinados tratamientos, incluidas comunicaciones opcionales), <strong>Portabilidad</strong> (recibir sus datos en formato estructurado) y <strong>Bloqueo</strong> temporal del tratamiento.
+      </p>
+      <p>
+        Para ejercer cualquiera de estos derechos o revocar su consentimiento, basta con enviar una solicitud indicando su nombre y requerimiento al correo{' '}
+        <a
+          href={`mailto:${PRIVACY_CONTACT_EMAIL}`}
+          className="text-nutri-forest font-semibold underline hover:text-nutri-gold transition-colors"
+        >
+          {PRIVACY_CONTACT_EMAIL}
+        </a>
+        . Nos comprometemos a dar respuesta oportuna dentro de los plazos legales vigentes establecidos por la Ley N° 21.719.
       </p>
     </section>
   </>

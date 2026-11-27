@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { useLegalModal } from '../legal/LegalModal';
+import { openCookieSettings } from '../ui/CookieConsentManager';
 import logoImg from '../../assets/images/logo.JPG';
 
 export const Footer: React.FC = () => {
@@ -160,6 +161,15 @@ export const Footer: React.FC = () => {
                     className="text-left text-nutri-ivory/75 hover:text-nutri-gold transition-colors duration-200 inline-flex items-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-nutri-gold rounded-sm"
                   >
                     Ley N° 20.584 (Derechos y Deberes en Salud)
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    onClick={openCookieSettings}
+                    className="text-left text-nutri-ivory/75 hover:text-nutri-gold transition-colors duration-200 inline-flex items-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-nutri-gold rounded-sm"
+                  >
+                    Configuración de cookies
                   </button>
                 </li>
               </ul>

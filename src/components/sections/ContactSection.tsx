@@ -30,6 +30,8 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
   const [city, setCity] = useState('');
   const [preferredTime, setPreferredTime] = useState<'manana' | 'tarde'>('manana');
   const [acceptedConsent, setAcceptedConsent] = useState(false);
+  const [acceptedOptionalComms, setAcceptedOptionalComms] = useState(false);
+  const [lastWaUrl, setLastWaUrl] = useState(`https://wa.me/${whatsappNumber}`);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -55,6 +57,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
         : 'Educación Alimentaria y Hábitos (Calama / Chile)';
 
     const timeText = preferredTime === 'manana' ? 'Mañana (09:00 - 13:00)' : 'Tarde (15:00 - 19:00)';
+    const optionalCommsFlag = acceptedOptionalComms ? 'Sí' : 'No';
 
     const message = `Hola Jeanette, deseo coordinar una reserva/asesoría.
 *Nombre:* ${fullName.trim()}
@@ -62,9 +65,11 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
 *Modalidad:* ${serviceName}
 *Preferencia horaria:* ${timeText}
 *Contacto:* ${contactInfo.trim()}
-(Formulario web con consentimiento Ley 21.719 y Ley 20.584 aceptado).`;
+
+[Privacidad v1.1 aceptada | Comunicaciones opcionales: ${optionalCommsFlag}]`;
 
     const waUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+    setLastWaUrl(waUrl);
 
     // Abrir WhatsApp con el lead seguro estructurado
     window.open(waUrl, '_blank', 'noopener,noreferrer');
@@ -121,7 +126,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
               </p>
               <div className="pt-2">
                 <a
-                  href={`https://wa.me/${whatsappNumber}`}
+                  href={lastWaUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 bg-nutri-sage text-white px-7 py-3.5 rounded-full font-medium hover:bg-nutri-forest transition-colors shadow-md"
@@ -298,16 +303,19 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                 </p>
               </div>
 
-              {/* Checkbox de Consentimiento Informado Obligatorio */}
-              <div className="space-y-3 pt-1">
+              {/* Separación de Finalidades (Ley N° 21.719): 2 checkboxes independientes, ambos vacíos por defecto */}
+              <div className="space-y-3.5 pt-1">
+                {/* Checkbox 1: Obligatorio */}
                 <label className="flex items-start gap-3 cursor-pointer">
                   <input
                     type="checkbox"
+                    required
                     checked={acceptedConsent}
                     onChange={(e) => setAcceptedConsent(e.target.checked)}
-                    className="w-4 h-4 mt-1 rounded text-nutri-forest focus:ring-nutri-gold border-nutri-forest/30 cursor-pointer"
+                    className="w-4 h-4 mt-1 rounded text-nutri-forest focus:ring-nutri-gold border-nutri-forest/30 cursor-pointer shrink-0"
                   />
-                  <span className="text-xs text-nutri-dark/80 font-body leading-relaxed">
+                  <span className="text-xs text-nutri-dark/85 font-body leading-relaxed">
+                    <span className="font-semibold text-nutri-forest mr-1">*</span>
                     He leído y acepto la{' '}
                     <button
                       type="button"
@@ -324,7 +332,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                     >
                       Términos de Servicio
                     </button>{' '}
-                    y comprendo la delimitación de atención territorial bajo la{' '}
+                    y comprendo la delimitación de atención territorial (
                     <button
                       type="button"
                       onClick={() => openLegalModal('rights')}
@@ -332,7 +340,20 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                     >
                       Ley N° 20.584
                     </button>
-                    .
+                    ).
+                  </span>
+                </label>
+
+                {/* Checkbox 2: Opcional (NO bloquea el envío) */}
+                <label className="flex items-start gap-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={acceptedOptionalComms}
+                    onChange={(e) => setAcceptedOptionalComms(e.target.checked)}
+                    className="w-4 h-4 mt-1 rounded text-nutri-forest focus:ring-nutri-gold border-nutri-forest/30 cursor-pointer shrink-0"
+                  />
+                  <span className="text-xs text-nutri-dark/75 font-body leading-relaxed">
+                    Autorizo de forma opcional recibir consejos de educación alimentaria, novedades y disponibilidad de cupos.
                   </span>
                 </label>
 
