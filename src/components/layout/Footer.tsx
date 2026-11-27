@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { useLegalModal } from '../legal/LegalModal';
+import logoImg from '../../assets/images/logo.JPG';
 
 export const Footer: React.FC = () => {
   const { openLegalModal } = useLegalModal();
@@ -17,19 +18,29 @@ export const Footer: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Grilla Principal de 3 Columnas */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-12 pb-14 border-b border-nutri-ivory/15">
-          {/* Columna 1: Identidad, Slogan & WhatsApp */}
+          {/* Columna 1: Identidad, Logotipo, Slogan & WhatsApp */}
           <div className="md:col-span-5 flex flex-col items-start space-y-4">
             <a
               href="#inicio"
               aria-label="Jeanette Ajata Nutrición - Ir al inicio de la página"
-              className="inline-flex flex-col group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-nutri-gold rounded-sm"
+              className="inline-flex items-center gap-3.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-nutri-gold rounded-xl"
             >
-              <span className="font-serif text-3xl font-semibold tracking-tight text-nutri-ivory group-hover:text-nutri-gold transition-colors duration-200">
-                Jeanette Ajata Cutipa
-              </span>
-              <span className="text-xs uppercase tracking-widest text-nutri-gold font-medium mt-0.5">
-                Licenciada en Nutrición
-              </span>
+              <div className="bg-white/95 p-2 rounded-xl shadow-sm border border-nutri-gold/25 shrink-0 transition-transform duration-200 group-hover:scale-[1.03]">
+                <img
+                  src={logoImg}
+                  alt="Logotipo Jeanette Ajata Nutrición"
+                  className="h-12 sm:h-14 w-auto object-contain rounded-lg"
+                  loading="lazy"
+                />
+              </div>
+              <div className="flex flex-col">
+                <span className="font-serif text-2xl sm:text-3xl font-semibold tracking-tight text-nutri-ivory group-hover:text-nutri-gold transition-colors duration-200 leading-tight">
+                  Jeanette Ajata Cutipa
+                </span>
+                <span className="text-xs uppercase tracking-widest text-nutri-gold font-medium mt-0.5">
+                  Licenciada en Nutrición
+                </span>
+              </div>
             </a>
 
             <p className="text-nutri-ivory/80 text-sm sm:text-base leading-relaxed max-w-sm font-light">

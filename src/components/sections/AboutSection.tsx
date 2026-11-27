@@ -8,6 +8,7 @@ import {
   GraduationCap,
 } from 'lucide-react';
 import { FloatingBadge } from '../ui/MotionPrimitives';
+import jeanettePerfilImg from '../../assets/images/jeanette-perfil.JPG';
 
 export interface PhilosophyPillar {
   id: string;
@@ -22,7 +23,7 @@ export interface AboutSectionProps {
 }
 
 export const AboutSection: React.FC<AboutSectionProps> = ({
-  profileImageUrl = 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80',
+  profileImageUrl = jeanettePerfilImg,
   className = '',
 }) => {
   const pillars: PhilosophyPillar[] = [
@@ -68,7 +69,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
                 <img
                   src={profileImageUrl}
                   alt="Jeanette Ajata Cutipa - Licenciada en Nutrición"
-                  className="w-full h-full object-cover object-center"
+                  className="w-full h-full object-cover object-top"
                   loading="lazy"
                   width="500"
                   height="625"

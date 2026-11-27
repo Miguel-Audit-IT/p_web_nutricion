@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Menu, X, Calendar } from 'lucide-react';
 import { NavItem } from '../../types';
+import { MagneticButton } from '../ui/MagneticButton';
 
 export const NAV_ITEMS: NavItem[] = [
   { label: 'Inicio', href: '#inicio' },
@@ -140,14 +141,16 @@ export const Navbar: React.FC = () => {
 
           {/* Botón CTA Desktop (Derecha) */}
           <div className="hidden md:flex items-center">
-            <a
-              href="#contacto"
-              aria-label="Agendar consulta o asesoría con Jeanette Ajata"
-              className="inline-flex items-center gap-2 bg-nutri-sage text-nutri-ivory px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-200 hover:bg-nutri-forest hover:shadow-md hover:scale-[1.02] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-nutri-gold focus-visible:ring-offset-2 focus-visible:ring-offset-nutri-ivory"
-            >
-              <Calendar className="w-4 h-4" aria-hidden="true" />
-              <span>Agendar Consulta</span>
-            </a>
+            <MagneticButton strength={0.28}>
+              <a
+                href="#contacto"
+                aria-label="Agendar consulta o asesoría con Jeanette Ajata"
+                className="inline-flex items-center gap-2 bg-nutri-sage text-nutri-ivory px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-200 hover:bg-nutri-forest hover:shadow-md hover:scale-[1.02] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-nutri-gold focus-visible:ring-offset-2 focus-visible:ring-offset-nutri-ivory"
+              >
+                <Calendar className="w-4 h-4" aria-hidden="true" />
+                <span>Agendar Consulta</span>
+              </a>
+            </MagneticButton>
           </div>
 
           {/* Botón Menú Hamburguesa Mobile */}

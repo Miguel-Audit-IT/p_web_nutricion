@@ -1,6 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Globe, MapPin, ShieldCheck, Sparkles } from 'lucide-react';
 import { FloatingBadge } from '../ui/MotionPrimitives';
+import { MagneticButton } from '../ui/MagneticButton';
+import jeanettePerfilImg from '../../assets/images/jeanette-perfil.JPG';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export interface HeroSectionProps {
   onSelectBolivia?: () => void;
@@ -11,7 +17,8 @@ export interface HeroSectionProps {
 export const HeroSection: React.FC<HeroSectionProps> = ({
   whatsappNumber = '56900000000',
 }) => {
-  const [imageError, setImageError] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  const parallaxImgRef = useRef<HTMLImageElement>(null);
 
   const boliviaWaLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
     'Hola Jeanette, me comunico desde Bolivia y quisiera agendar una Consulta Nutricional Online.'
@@ -21,12 +28,52 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
     'Hola Jeanette, me interesa el Programa de Educación Alimentaria y hábitos en Calama, Chile.'
   )}`;
 
-  // URL primaria y respaldo de alimentación saludable y consulta
-  const primaryImageUrl = 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=900&q=80';
-  const fallbackImageUrl = 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=900&q=80';
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
+    const ctx = gsap.context(() => {
+      // Mask reveal cinematográfico para las líneas del título <h1>
+      gsap.fromTo(
+        '.hero-title-line',
+        { yPercent: 100 },
+        {
+          yPercent: 0,
+          duration: 1,
+          stagger: 0.12,
+          ease: 'power3.out',
+          delay: 1.55,
+        }
+      );
+
+      // Parallax orgánico sutil vinculado al scroll en la imagen del Hero
+      if (parallaxImgRef.current && sectionRef.current) {
+        gsap.fromTo(
+          parallaxImgRef.current,
+          { yPercent: -6, scale: 1.12 },
+          {
+            yPercent: 8,
+            scale: 1.12,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: 'top top',
+              end: 'bottom top',
+              scrub: true,
+            },
+          }
+        );
+      }
+    }, sectionRef);
+
+    return () => {
+      ctx.revert();
+    };
+  }, []);
 
   return (
     <section
+      ref={sectionRef}
       id="inicio"
       aria-labelledby="hero-heading"
       className="relative bg-nutri-ivory pt-10 pb-16 md:pt-16 md:pb-24 overflow-hidden border-b border-nutri-forest/10"
@@ -55,12 +102,26 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               <span>Telemedicina Internacional &amp; Asesorías en Calama</span>
             </div>
 
-            {/* Título Principal <h1> con font-title (Playfair Display) y color nutri-forest */}
+            {/* Título Principal <h1> con font-title (Playfair Display), mask reveal y color nutri-forest */}
             <h1
               id="hero-heading"
               className="font-title text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] leading-[1.18] font-normal text-nutri-forest tracking-tight"
             >
-              Transforma tus hábitos y tu salud a través de una alimentación consciente
+              <span className="block overflow-hidden pb-0.5">
+                <span className="hero-title-line block will-change-transform">
+                  Transforma tus hábitos{' '}
+                </span>
+              </span>
+              <span className="block overflow-hidden pb-0.5">
+                <span className="hero-title-line block will-change-transform">
+                  y tu salud a través de una{' '}
+                </span>
+              </span>
+              <span className="block overflow-hidden pb-1">
+                <span className="hero-title-line block will-change-transform">
+                  alimentación consciente
+                </span>
+              </span>
             </h1>
 
             {/* Párrafo descriptivo con font-body y color nutri-dark */}
@@ -69,32 +130,36 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             </p>
 
             {/* ======================================================== */}
-            {/* BOTONES DE SEGMENTACIÓN (CTAs)                           */}
+            {/* BOTONES DE SEGMENTACIÓN (CTAs) CON EFECTO MAGNÉTICO     */}
             {/* ======================================================== */}
             <div className="pt-2 w-full sm:w-auto flex flex-col sm:flex-row gap-3.5 sm:gap-4">
               {/* Botón Primario 1 (Bolivia - Telemedicina) */}
-              <a
-                href={boliviaWaLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Agendar telemedicina para pacientes en Bolivia (abre en WhatsApp)"
-                className="inline-flex items-center justify-center gap-2.5 bg-nutri-sage text-white px-6 py-3.5 rounded-full text-sm sm:text-base font-medium shadow-sm transition-all duration-200 hover:bg-nutri-forest hover:shadow-md hover:scale-[1.01] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-nutri-gold focus-visible:ring-offset-2 focus-visible:ring-offset-nutri-ivory"
-              >
-                <Globe className="w-4 h-4 text-nutri-ivory" aria-hidden="true" />
-                <span>Telemedicina (Pacientes Bolivia)</span>
-              </a>
+              <MagneticButton strength={0.25} className="w-full sm:w-auto">
+                <a
+                  href={boliviaWaLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Agendar telemedicina para pacientes en Bolivia (abre en WhatsApp)"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-nutri-sage text-white px-6 py-3.5 rounded-full text-sm sm:text-base font-medium shadow-sm transition-all duration-200 hover:bg-nutri-forest hover:shadow-md hover:scale-[1.01] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-nutri-gold focus-visible:ring-offset-2 focus-visible:ring-offset-nutri-ivory"
+                >
+                  <Globe className="w-4 h-4 text-nutri-ivory" aria-hidden="true" />
+                  <span>Telemedicina (Pacientes Bolivia)</span>
+                </a>
+              </MagneticButton>
 
               {/* Botón Primario 2 (Chile - Asesoría en Calama) */}
-              <a
-                href={chileWaLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Solicitar asesoría de educación alimentaria en Calama, Chile (abre en WhatsApp)"
-                className="inline-flex items-center justify-center gap-2.5 border-2 border-nutri-sage text-nutri-sage bg-transparent px-6 py-3.5 rounded-full text-sm sm:text-base font-medium transition-all duration-200 hover:bg-nutri-sage hover:text-white hover:shadow-md hover:scale-[1.01] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-nutri-gold focus-visible:ring-offset-2 focus-visible:ring-offset-nutri-ivory"
-              >
-                <MapPin className="w-4 h-4" aria-hidden="true" />
-                <span>Asesoría en Calama (Chile)</span>
-              </a>
+              <MagneticButton strength={0.25} className="w-full sm:w-auto">
+                <a
+                  href={chileWaLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Solicitar asesoría de educación alimentaria en Calama, Chile (abre en WhatsApp)"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 border-2 border-nutri-sage text-nutri-sage bg-transparent px-6 py-3.5 rounded-full text-sm sm:text-base font-medium transition-all duration-200 hover:bg-nutri-sage hover:text-white hover:shadow-md hover:scale-[1.01] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-nutri-gold focus-visible:ring-offset-2 focus-visible:ring-offset-nutri-ivory"
+                >
+                  <MapPin className="w-4 h-4" aria-hidden="true" />
+                  <span>Asesoría en Calama (Chile)</span>
+                </a>
+              </MagneticButton>
             </div>
 
             {/* ======================================================== */}
@@ -127,15 +192,15 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               {/* Contenedor elegante de la imagen con esquinas redondeadas asimétricas y borde nutri-gold */}
               <div className="relative overflow-hidden rounded-tl-[3.5rem] rounded-br-[3.5rem] rounded-tr-2xl rounded-bl-2xl border-2 border-nutri-gold shadow-xl bg-nutri-forest/10 aspect-[4/5] sm:aspect-[3/4]">
                 
-                {/* Fotografía profesional de nutrición y bienestar */}
+                {/* Fotografía profesional de Jeanette Ajata con parallax y encuadre superior */}
                 <img
-                  src={imageError ? fallbackImageUrl : primaryImageUrl}
-                  alt="Alimentación consciente y asesoría nutricional con Jeanette Ajata"
-                  className="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-105"
+                  ref={parallaxImgRef}
+                  src={jeanettePerfilImg}
+                  alt="Jeanette Ajata Cutipa - Licenciada en Nutrición y Bienestar"
+                  className="w-full h-full object-cover object-top will-change-transform"
                   loading="eager"
                   width="600"
                   height="800"
-                  onError={() => setImageError(true)}
                 />
 
                 {/* Gradiente sutil para integración cromática Natural Premium */}

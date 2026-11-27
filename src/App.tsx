@@ -7,10 +7,12 @@ import MethodologySection from './components/sections/MethodologySection';
 import AboutSection from './components/sections/AboutSection';
 import ContactSection from './components/sections/ContactSection';
 import { FadeInUp } from './components/ui/MotionPrimitives';
+import { SmoothScrollProvider } from './components/ui/SmoothScrollProvider';
+import { EditorialPreloader } from './components/ui/EditorialPreloader';
 
 export function App() {
   return (
-    <>
+    <SmoothScrollProvider>
       {/* Datos estructurados Schema.org JSON-LD y metadatos SEO */}
       <SeoHead />
 
@@ -29,10 +31,8 @@ export function App() {
           <FocusAreasSection />
         </FadeInUp>
 
-        {/* Metodología en 3 Pasos: ¿Cómo trabajamos juntos? (id="metodologia") */}
-        <FadeInUp>
-          <MethodologySection />
-        </FadeInUp>
+        {/* Metodología en 3 Pasos con Scrollytelling & Pinning en Desktop (id="metodologia") */}
+        <MethodologySection />
 
         {/* Sobre Mí: Historia, Formación y 3 Pilares (id="sobre-mi") */}
         <FadeInUp>
@@ -44,7 +44,10 @@ export function App() {
           <ContactSection whatsappNumber="56900000000" />
         </FadeInUp>
       </Layout>
-    </>
+
+      {/* Preloader Editorial de Lujo (se monta al final para cubrir el navbar z-50 y se desmonta al completar) */}
+      <EditorialPreloader />
+    </SmoothScrollProvider>
   );
 }
 
